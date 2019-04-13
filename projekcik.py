@@ -13,8 +13,13 @@ while (cap.isOpened()):
     if ret == True:
         cv2.imshow("camera", frame)
 
-    if cv2.waitKey(1000):
+        #frame = cv2.flip(frame, 1)
+
+        if cv2.waitKey(25) & 0xFF == ord('x'):
+            break
+    else:
         break
 
-    cap.release()
-    cv2.destroyAllWindows()
+cap.release()
+
+cv2.destroyAllWindows()

@@ -7,6 +7,11 @@ if (cap.isOpened() == False):
     print("!!! Error during opening camera !!!")
 else:
     print("!!! Camera has been opened !!!")
+    
+# HSV color range describtion:
+# H stands for color
+# S stands for strenth of color
+# V stands for lighting of the color
 
 low_boundary_orange=np.array([10,150,255])
 high_boundary_orange=np.array([20,255,255])

@@ -14,7 +14,7 @@ else:
 # V stands for lighting of the color
 
 low_boundary_orange=np.array([10,150,255])
-high_boundary_orange=np.array([20,255,255])
+high_boundary_orange=np.array([47,255,255])
 
 
 while (cap.isOpened()):

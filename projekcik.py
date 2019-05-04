@@ -22,7 +22,7 @@ array = []
 # max lenght of our line thats chasing the object
 maxLineLenght = 25
 
-command = "C:\Program Files\Mozilla Firefox\firefox.exe"
+#command = "C:\Program Files\Mozilla Firefox\firefox.exe"
 
 while (cap.isOpened()):
 
@@ -69,7 +69,7 @@ while (cap.isOpened()):
                          if (array[i][0]-array[0][0]) > 30:
                              # writing letter L on screen if detected
                             cv2.putText(frame,'Litera L',(0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,255), 3, cv2.LINE_AA)
-                            os.popen(command)
+                            #os.popen(command)
                            #print(len(array))
 
         # when our line will get too long remove 1 element so it will be changing dynamically

@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import os
+import subprocess
 
 # using 0 because its a webcamp
 cap = cv2.VideoCapture(0)
@@ -22,18 +22,16 @@ array = []
 # max lenght of our line thats chasing the object
 maxLineLenght = 25
 
-#command = "C:\Program Files\Mozilla Firefox\firefox.exe"
-
 while (cap.isOpened()):
 
     ret, frame = cap.read()
 
-    if ret==True:
-        #W SKROCIE JAK DZIAŁA CALA FILTRACJA:
+    if ret == True:
+        # W SKROCIE JAK DZIAŁA CALA FILTRACJA:
         # zamieniamy rbg na hsv, zabieg który ulatwia nam okreslanie zakresu koloru ktorego poszukujemy (tak ja to zrozumialem)
         # nastepnie, korzystajac z funkcji inRange() 'wrzucamy' naz obraz do 'pudelka' z granicami koloru pomaranczowego
         # kolejnym krokiem jest operacja AND dzieki ktorej wszystko co jest TRUE bedzie miec mozliwosc wyswietlenie w naszym kolorze w naspenych krokach
-        #jedynki nachodza na naszej masce (filter) i pokazuja kolor na ekranie
+        # jedynki nachodza na naszej masce (filter) i pokazuja kolor na ekranie
         hsv_view = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         # checking if there is an object that is located between boundaries of color that we have chosen so for this project its everything thats orange
         # if its in the range its 1 (white) if not its 0
@@ -52,33 +50,51 @@ while (cap.isOpened()):
             # getting info about min circle that we can draw around our object
             (x, y), radius = cv2.minEnclosingCircle(largest)
 
-            if radius>5:
+            if radius > 5:
                 # on what, what draw, from where we start -1 means everything, color, thickness
                 cv2.drawContours(frame, contours, -1, (0, 255, 0), 3)
                 # drawing small circle on object
-                cv2.circle(frame, (int(x), int(y)), int(radius / 12),(0, 255, 0), -1)
+                cv2.circle(frame, (int(x), int(y)), int(radius / 12), (0, 255, 0), -1)
 
-                # storing coords of object
+                # storing coords of center of an object
                 array.append((int(x), int(y)))
                 for i in range(1, len(array)):
                     cv2.line(frame, array[i - 1], array[i], (0, 255, 0), 3)
-                    if len(array)>10:
+                    if len(array) > 10:
                         # checking difference of Yaxis
-                        if (array[i][1]-array[0][1]) > 50:
-                            # checking difference of Xaxis
-                         if (array[i][0]-array[0][0]) > 30:
-                             # writing letter L on screen if detected
-                            cv2.putText(frame,'Litera L',(0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,255,255), 3, cv2.LINE_AA)
-                            #os.popen(command)
-                           #print(len(array))
+                        if (array[i][1] - array[0][1]) > 50:
+                             #checking difference of Xaxis
+                            if (array[i][0] - array[0][0]) > 30:
+                                 #writing letter L on screen if detected
+                                cv2.putText(frame, 'Litera L', (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3,
+                                            cv2.LINE_AA)
+                               # subprocess.call([r'C:\Users\damia\Desktop\scripts\ff.bat'])
+
+
+                    if (array[i][0] < 60 and array[i][1] > 430):
+                        cv2.putText(frame, 'Left bottom corner', (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3,
+                                    cv2.LINE_AA)
+
+                    if (array[i][0] < 60 and array[i][1] < 60):
+                        cv2.putText(frame, 'Left upper corner', (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3,
+                                    cv2.LINE_AA)
+
+                    if (array[i][0] > 550 and array[i][1] < 60):
+                        cv2.putText(frame, 'Right upper corner', (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3,
+                                    cv2.LINE_AA)
+
+                    if (array[i][0] > 550 and array[i][1] > 430):
+                        cv2.putText(frame, 'Right bottom corner', (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3,
+                                    cv2.LINE_AA)
+
 
         # when our line will get too long remove 1 element so it will be changing dynamically
         if len(array) > maxLineLenght:
             array.pop(0)
 
-       # frame = cv2.flip(frame, 1)
+        # frame = cv2.flip(frame, 1)
         cv2.imshow("NAI PROJECT:)", frame)
-        #cv2.imshow("COLOR FILTER", res)
+        # cv2.imshow("COLOR FILTER", res)
         # cv2.imshow("filter", filter)
 
         if cv2.waitKey(25) & 0xFF == ord('q'):

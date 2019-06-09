@@ -29,7 +29,7 @@ while (cap.isOpened()):
     if ret == True:
         # W SKROCIE JAK DZIAŁA CALA FILTRACJA:
         # zamieniamy rbg na hsv, zabieg który ulatwia nam okreslanie zakresu koloru ktorego poszukujemy (tak ja to zrozumialem)
-        # nastepnie, korzystajac z funkcji inRange() 'wrzucamy' naz obraz do 'pudelka' z granicami koloru pomaranczowego
+        # nastepnie, korzystajac z funkcji inRange() 'wrzucamy' naz obraz do 'pudelka' z granicami koloru 
         # kolejnym krokiem jest operacja AND dzieki ktorej wszystko co jest TRUE bedzie miec mozliwosc wyswietlenie w naszym kolorze w naspenych krokach
         # jedynki nachodza na naszej masce (filter) i pokazuja kolor na ekranie
         hsv_view = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
